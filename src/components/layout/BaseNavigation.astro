@@ -1,21 +1,22 @@
 ---
 const navigationItems = [
   { name: 'Home', url: '/' },
-  { name: 'Blog', url: '/blog/' },
+  { name: '我々について', url: '/about' },
+  { name: 'Karabina のご紹介', url: '/karabina' },
 ];
 
 const socialIcons = [
-  {
-    name: 'GitHub',
-    url: 'https://github.com/eliancodes/brutal',
-    icon: 'i-uil-github',
-  },
-  {
-    name: 'Twitter',
-    url: 'https://www.twitter.com/eliancodes',
-    icon: 'i-uil-twitter',
-  },
-  { name: 'RSS', url: '/feed.xml', icon: 'i-uil-rss' },
+  // {
+  //   name: 'GitHub',
+  //   url: 'https://github.com/eliancodes/brutal',
+  //   icon: 'i-uil-github',
+  // },
+  // {
+  //   name: 'Twitter',
+  //   url: 'https://www.twitter.com/eliancodes',
+  //   icon: 'i-uil-twitter',
+  // },
+  // { name: 'RSS', url: '/feed.xml', icon: 'i-uil-rss' },
 ];
 
 interface Props {
@@ -28,7 +29,8 @@ const { pageTitle } = Astro.props;
 <header class='border-b-4 border-black flex justify-between p-6 items-center'>
   {pageTitle && <h1 class='hidden'>{pageTitle}</h1>}
   <a href='/' title='Back to Home'>
-    <p class='righteous md:text-5xl'>Brutal</p>
+    <!--<p class='righteous md:text-5xl'>ここにいい感じのロゴが入る</p>-->
+    <img alt="いぬハッカーロゴ" src="https://cdn.discordapp.com/attachments/1122080714259710004/1122085918719881226/download.png" class="h-20" />
   </a>
   <nav class='hidden md:inline-block'>
     <h2 class='hidden'>Navigation</h2>
