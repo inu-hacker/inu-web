@@ -1,61 +1,652 @@
 ---
-import Layout from '@layouts/Default.astro';
-import RecentBlogPosts from '@components/generic/RecentBlogPosts.astro';
-import MobileSocials from '@components/home/MobileSocials.astro';
-import { Pill } from '@eliancodes/brutal-ui';
-import { Button } from '@eliancodes/brutal-ui';
-import { Card } from '@eliancodes/brutal-ui';
-
-const builtWith = [
-  { name: 'Astro', url: 'https://astro.build/' },
-  { name: 'UnoCSS', url: 'https://uno.antfu.me/' },
-  {
-    name: 'Content Collections',
-    url: 'https://docs.astro.build/en/guides/content-collections/',
-  },
-  { name: 'RSS', url: 'https://docs.astro.build/en/guides/rss/' },
-  {
-    name: 'Sitemap',
-    url: 'https://docs.astro.build/en/guides/integrations-guide/sitemap/',
-  },
-  { name: 'Vercel', url: 'https://vercel.com' },
-  { name: 'TypeScript', url: 'https://www.typescriptlang.org/' },
-];
+// src/pages/index.astro
+// カジュアル&かわいいコーポレートサイト
+import Navigation from '../components/Navigation.astro';
 ---
 
-<Layout
-  title='Home'
-  pageTitle='INU-Hacker'
-  description='こんにちは、いぬハッカーです'
->
-  <main class='bg-pink p-6'>
-    <section id='about' class='grid md:grid-cols-8 gap-8 mt-4'>
-      <h2 class='hidden'>About INU-Hacker</h2>
-      <div class='col-span-5'>
-        <Card>
-          <div class='flex flex-col justify-between items-start gap-4'>
-            <p class='mt-4 outfit text-2xl md:text-5xl lg:text-6xl'>
-              こんにちは、いぬハッカーです
-            </p>
-            <p class='mt-2 outfit text-xl md:text-3xl lg:text-5xl'>
-              合同会社いぬハッカー公式ホームページ
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>INU-Hacker 🐕 | 楽しくWebを作る会社</title>
+  <meta name="description" content="わくわくするWebサービスを一緒に作りませんか？">
+
+  <!-- OGP -->
+  <meta property="og:title" content="INU-Hacker 🐕 | 楽しくWebを作る会社">
+  <meta property="og:description" content="わくわくするWebサービスを一緒に作りませんか？">
+  <meta property="og:type" content="website">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;900&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'M PLUS Rounded 1c', -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.8;
+      background: #0a0e27;
+      color: #e8eaf6;
+    }
+
+    /* Header Navigation */
+    .header-nav {
+      background: rgba(10, 14, 39, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 1rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      border-bottom: 2px solid rgba(139, 92, 246, 0.2);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-logo {
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: #ffffff;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+      align-items: center;
+    }
+
+    .nav-link {
+      color: #c7d2fe;
+      text-decoration: none;
+      font-weight: 700;
+      transition: all 0.3s ease;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+    }
+
+    .nav-link:hover {
+      color: #ffffff;
+      background: rgba(139, 92, 246, 0.2);
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        gap: 1rem;
+      }
+
+      .nav-link {
+        font-size: 0.9rem;
+        padding: 0.4rem 0.8rem;
+      }
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* かわいいシャドウ */
+    .cute-shadow {
+      box-shadow: 0 4px 0 rgba(0,0,0,0.1);
+    }
+
+    .cute-shadow-hover {
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .cute-shadow-hover:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+    }
+
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(135deg, #1a1f3a 0%, #2d1b4e 50%, #1e3a5f 100%);
+      padding: 4rem 0 6rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "🌟";
+      position: absolute;
+      top: 20%;
+      left: 10%;
+      font-size: 3rem;
+      opacity: 0.4;
+      animation: float 3s ease-in-out infinite;
+      filter: drop-shadow(0 0 10px rgba(139, 92, 246, 0.5));
+    }
+
+    .hero::after {
+      content: "✨";
+      position: absolute;
+      bottom: 20%;
+      right: 15%;
+      font-size: 2.5rem;
+      opacity: 0.4;
+      animation: float 4s ease-in-out infinite;
+      filter: drop-shadow(0 0 10px rgba(236, 72, 153, 0.5));
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 900;
+      margin-bottom: 1rem;
+      color: #ffffff;
+      text-align: center;
+      line-height: 1.3;
+      text-shadow: 0 0 30px rgba(139, 92, 246, 0.3);
+    }
+
+    .hero .emoji-large {
+      font-size: 4rem;
+      display: block;
+      margin: 0 auto 1.5rem;
+      animation: bounce 2s ease-in-out infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    .hero-subtitle {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      text-align: center;
+      color: #c4b5fd;
+    }
+
+    .hero-description {
+      font-size: 1.1rem;
+      margin-bottom: 2.5rem;
+      text-align: center;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      color: #d8b4fe;
+    }
+
+    /* かわいいボタン */
+    .btn {
+      display: inline-block;
+      padding: 1rem 2.5rem;
+      font-size: 1.1rem;
+      font-weight: 700;
+      text-decoration: none;
+      border-radius: 50px;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      border: none;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+
+    .btn:hover::before {
+      width: 300px;
+      height: 300px;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+      color: white;
+      box-shadow: 0 4px 20px rgba(139, 92, 246, 0.5);
+    }
+
+    .btn-secondary {
+      background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+      color: white;
+      box-shadow: 0 4px 20px rgba(59, 130, 246, 0.5);
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* セクション */
+    section {
+      padding: 4rem 0;
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      font-weight: 900;
+      text-align: center;
+      margin-bottom: 1rem;
+      color: #ffffff;
+      position: relative;
+      display: inline-block;
+    }
+
+    .section-subtitle {
+      text-align: center;
+      color: #a5b4fc;
+      margin-bottom: 3rem;
+      font-size: 1.1rem;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    /* グリッド */
+    .grid {
+      display: grid;
+      gap: 2rem;
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    }
+
+    /* かわいいカード */
+    .card {
+      background: rgba(30, 41, 59, 0.6);
+      backdrop-filter: blur(10px);
+      border-radius: 24px;
+      padding: 2rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      border: 2px solid rgba(139, 92, 246, 0.2);
+    }
+
+    .card:hover {
+      transform: translateY(-8px) rotate(-2deg);
+      box-shadow: 0 12px 40px rgba(139, 92, 246, 0.3);
+      border-color: rgba(139, 92, 246, 0.5);
+    }
+
+    .card-pink {
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.2) 0%, rgba(236, 72, 153, 0.2) 100%);
+      border-color: rgba(236, 72, 153, 0.3);
+    }
+    .card-blue {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(6, 182, 212, 0.2) 100%);
+      border-color: rgba(6, 182, 212, 0.3);
+    }
+    .card-yellow {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.2) 0%, rgba(251, 191, 36, 0.2) 100%);
+      border-color: rgba(251, 191, 36, 0.3);
+    }
+    .card-green {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(52, 211, 153, 0.2) 100%);
+      border-color: rgba(52, 211, 153, 0.3);
+    }
+    .card-purple {
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.2) 0%, rgba(168, 85, 247, 0.2) 100%);
+      border-color: rgba(168, 85, 247, 0.3);
+    }
+
+    .card-icon {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+      display: block;
+      text-align: center;
+    }
+
+    .card-title {
+      font-size: 1.5rem;
+      font-weight: 900;
+      margin-bottom: 1rem;
+      color: #ffffff;
+      text-align: center;
+    }
+
+    .card-list {
+      list-style: none;
+      margin-bottom: 1.5rem;
+    }
+
+    .card-list li {
+      margin-bottom: 0.7rem;
+      padding-left: 1.5rem;
+      position: relative;
+      color: #e0e7ff;
+    }
+
+    .card-list li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: #a78bfa;
+      font-weight: 900;
+    }
+
+    .card-text {
+      color: #c7d2fe;
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    /* 技術スタック（削除済み） */
+
+    /* プロセス */
+    .process-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .process-step {
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+      align-items: start;
+    }
+
+    .step-number {
+      flex-shrink: 0;
+      width: 4rem;
+      height: 4rem;
+      background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      font-weight: 900;
+      border-radius: 50%;
+      box-shadow: 0 4px 20px rgba(139, 92, 246, 0.5);
+    }
+
+    .step-content {
+      flex: 1;
+      background: rgba(30, 41, 59, 0.6);
+      backdrop-filter: blur(10px);
+      padding: 1.5rem;
+      border-radius: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      border: 2px solid rgba(139, 92, 246, 0.2);
+    }
+
+    .step-title {
+      font-size: 1.3rem;
+      font-weight: 900;
+      margin-bottom: 0.5rem;
+      color: #ffffff;
+    }
+
+    .step-description {
+      color: #c7d2fe;
+      line-height: 1.7;
+    }
+
+    /* 実績カード（削除済み） */
+
+    /* ブログカード（削除済み） */
+
+    /* CTA セクション */
+    .cta-section {
+      background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+      color: white;
+      border-radius: 32px;
+      padding: 4rem 2rem;
+      margin: 0 1rem;
+      text-align: center;
+      box-shadow: 0 10px 40px rgba(139, 92, 246, 0.5);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-section::before {
+      content: "💫";
+      position: absolute;
+      top: 10%;
+      left: 10%;
+      font-size: 3rem;
+      opacity: 0.4;
+      filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
+    }
+
+    .cta-section::after {
+      content: "🌈";
+      position: absolute;
+      bottom: 10%;
+      right: 10%;
+      font-size: 3rem;
+      opacity: 0.4;
+      filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
+    }
+
+    .cta-title {
+      font-size: 2.5rem;
+      font-weight: 900;
+      margin-bottom: 1rem;
+    }
+
+    .cta-description {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      opacity: 0.95;
+    }
+
+    .btn-white {
+      background: white;
+      color: #8b5cf6;
+      box-shadow: 0 4px 20px rgba(255,255,255,0.4);
+      font-size: 1.2rem;
+      padding: 1.2rem 3rem;
+    }
+
+    .btn-white:hover {
+      background: rgba(255, 255, 255, 0.95);
+      color: #ec4899;
+    }
+
+    /* ユーティリティ */
+    .text-center { text-align: center; }
+    .mb-4 { margin-bottom: 1rem; }
+    .mb-8 { margin-bottom: 2rem; }
+    .mb-12 { margin-bottom: 3rem; }
+
+    @media (max-width: 768px) {
+      .hero {
+        padding: 3rem 0 4rem;
+      }
+
+      .section-title {
+        font-size: 2rem;
+      }
+
+      .grid-2,
+      .grid-3 {
+        grid-template-columns: 1fr;
+      }
+
+      .process-step {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .cta-title {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+<Navigation />
+
+<main>
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <span class="emoji-large">🐕</span>
+      <h1>わくわくするWebを、一緒に作ろう！</h1>
+      <p class="hero-subtitle">楽しく、丁寧に、最高のものづくり</p>
+      <p class="hero-description">
+        「こんなサービスあったらいいな」を形にします。<br>
+        モダンな技術で、使いやすくて、ちょっと嬉しいWebサイト作りませんか？
+      </p>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section>
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">できること 💪</h2>
+        <p class="section-subtitle">あなたのアイデア、形にするお手伝いをします</p>
+      </div>
+
+      <div class="grid grid-3">
+        <div class="card card-pink cute-shadow-hover">
+          <span class="card-icon">🎨</span>
+          <h3 class="card-title">Webサイト制作</h3>
+          <ul class="card-list">
+            <li>おしゃれな会社サイト</li>
+            <li>サクサク動くWebアプリ</li>
+            <li>売れるECサイト</li>
+          </ul>
+          <p class="card-text">
+            デザインから実装まで。使う人も作る人も嬉しいサイトを目指します！
+          </p>
+        </div>
+
+        <div class="card card-blue cute-shadow-hover">
+          <span class="card-icon">🤝</span>
+          <h3 class="card-title">開発おまかせ</h3>
+          <ul class="card-list">
+            <li>アイデア出しから一緒に</li>
+            <li>既存サイトのリニューアル</li>
+            <li>公開後のサポートも</li>
+          </ul>
+          <p class="card-text">
+            初めてでも大丈夫。わかりやすく説明しながら、最後まで伴走します
+          </p>
+        </div>
+
+        <div class="card card-yellow cute-shadow-hover">
+          <span class="card-icon">💡</span>
+          <h3 class="card-title">技術の相談</h3>
+          <ul class="card-list">
+            <li>どの技術使えばいい？</li>
+            <li>サイトが遅いんだけど...</li>
+            <li>もっといい方法ないかな</li>
+          </ul>
+          <p class="card-text">
+            技術的な悩み、気軽に相談してください。一緒に最適解を探します
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Process Section -->
+  <section style="background: linear-gradient(135deg, #1e293b 0%, #334155 100%); padding: 5rem 0;">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">進め方 🚀</h2>
+        <p class="section-subtitle">わかりやすく、安心して進められます</p>
+      </div>
+
+      <div class="process-container">
+        <div class="process-step">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <h3 class="step-title">まずはお話を聞かせてください</h3>
+            <p class="step-description">
+              「こんなことしたい」「こんな課題がある」何でも大丈夫。ざっくばらんにお話ししましょう！
             </p>
           </div>
-        </Card>
-      </div>
-      <div class='col-span-3'>
-        <Card>
-          <div class='flex flex-col justify-between items-start gap-4'>
-            <p class='mt-4 outfit text-2xl md:text-5xl lg:text-6xl'>
-              いぬハッカーくん
-            </p>
-            <img src="https://cdn.discordapp.com/attachments/1117819977483948042/1117820595304939520/document.png" alt="いぬハッカー" />
-            <p class='mt-2 outfit text-xl md:text-3xl lg:text-5xl'>
-              かわいいね
+        </div>
+
+        <div class="process-step">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <h3 class="step-title">提案とお見積もり</h3>
+            <p class="step-description">
+              どんな技術を使うか、いつまでにできるか、いくらかかるか。わかりやすくご説明します
             </p>
           </div>
-        </Card>
+        </div>
+
+        <div class="process-step">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <h3 class="step-title">一緒に作っていきます</h3>
+            <p class="step-description">
+              定期的に進捗を共有。「ちょっと違うかも」も大歓迎。柔軟に対応します
+            </p>
+          </div>
+        </div>
+
+        <div class="process-step">
+          <div class="step-number">4</div>
+          <div class="step-content">
+            <h3 class="step-title">公開後もおまかせ</h3>
+            <p class="step-description">
+              リリースして終わりじゃありません。困ったときはいつでも相談してくださいね
+            </p>
+          </div>
+        </div>
       </div>
-    </section>
-  </main>
-</Layout>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <!--<section style="padding: 6rem 0;">-->
+  <!--  <div class="cta-section">-->
+  <!--    <h2 class="cta-title">私たちのことをもっと知る</h2>-->
+  <!--    <p class="cta-description">-->
+  <!--      INU-Hackerについて、もっと詳しく知りたい方は<br>-->
+  <!--      代表メンバーや会社概要をご覧ください-->
+  <!--    </p>-->
+  <!--    <a href="/about" class="btn btn-white">私たちについて 👀</a>-->
+  <!--  </div>-->
+  <!--</section>-->
+</main>
+</body>
+</html>
