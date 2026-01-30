@@ -1,0 +1,81 @@
+---
+// src/components/Navigation.astro
+// 共通ナビゲーションバーコンポーネント
+---
+
+<header class="header-nav">
+    <nav class="nav-container">
+        <a href="/" class="nav-logo">
+            <span>🐕</span>
+            <span>いぬハッカー</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="/about" class="nav-link">われわれについて</a></li>
+        </ul>
+    </nav>
+</header>
+
+<style>
+    /* Header Navigation */
+    .header-nav {
+        background: rgba(10, 14, 39, 0.95);
+        backdrop-filter: blur(10px);
+        padding: 1rem 0;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        border-bottom: 2px solid rgba(139, 92, 246, 0.2);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+
+    .nav-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .nav-logo {
+        font-size: 1.5rem;
+        font-weight: 900;
+        color: #ffffff;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .nav-links {
+        display: flex;
+        gap: 2rem;
+        list-style: none;
+        align-items: center;
+    }
+
+    .nav-link {
+        color: #c7d2fe;
+        text-decoration: none;
+        font-weight: 700;
+        transition: all 0.3s ease;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+    }
+
+    .nav-link:hover {
+        color: #ffffff;
+        background: rgba(139, 92, 246, 0.2);
+    }
+
+    @media (max-width: 768px) {
+        .nav-links {
+            gap: 1rem;
+        }
+
+        .nav-link {
+            font-size: 0.9rem;
+            padding: 0.4rem 0.8rem;
+        }
+    }
+</style>
